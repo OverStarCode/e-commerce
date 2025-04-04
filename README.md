@@ -1,6 +1,6 @@
 ﻿# e-commerce
 
-### 1. **[E-commerce App](https://github.com/OverStarCode/e-commerce)**
+### 1. **[E-commerce Website](https://github.com/OverStarCode/e-commerce)**
 Built a fully-featured **E-commerce app** using **MERN stack** and **Next.js**. It includes features like **user authentication**, **product management**, and an **admin dashboard**.
 
 #### 🖼 Screenshots:
