@@ -5,7 +5,7 @@ Built a fully-featured **E-commerce app** using **MERN stack** and **Next.js**. 
 
 #### 🖼 Screenshots:
 <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;" align="center">
-  <img src="[assest/images/e-commerce/1.jpeg](https://github.com/OverStarCode/OverStarCode/blob/main/assest/images/e-commerce/1.jpeg?raw=true)" alt="E-commerce App Screenshot 1" style="width: 200px; height:150px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+  <img src="assest/images/e-commerce/1.jpeg" alt="E-commerce App Screenshot 1" style="width: 200px; height:150px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
   <img src="assest/images/e-commerce/2.jpeg" alt="E-commerce App Screenshot 2" style="width: 200px; height: 150px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
   <img src="assest/images/e-commerce/3.jpeg" alt="E-commerce App Screenshot 3" style="width: 200px; height: 150px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
   <img src="assest/images/e-commerce/4.jpeg" alt="E-commerce App Screenshot 4" style="width: 200px; height: 150px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
