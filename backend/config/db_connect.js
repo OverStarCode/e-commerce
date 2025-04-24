@@ -1,42 +1,18 @@
-// require('dotenv').config();
-// const mysql = require('mysql');
+const mongoose = require("mongoose");
 
-// const DbConnection = () => {
-//     const connection = mysql.createConnection({
-//         host: process.env.DB_HOSTNAME,
-//         port: process.env.DB_PORT || 3306,
-//         user: process.env.DB_USERNAME,
-//         password: process.env.DB_PASSWORD,
-//         database: process.env.DB_DATABASE
-//     });
+const connectDB = async () => {
+  try {
+    // Replace the URL with your MongoDB Atlas connection string
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-//     connection.connect((err) => {
-//         if (err) {
-//             console.error('MySQL connection failed:', err.stack);
-//             return;
-//         }
-//         console.log('Connected to MySQL on Railway!');
-//     });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (err) {
+    console.error("Error: " + err.message);
+    process.exit(1); // Exit the process with failure
+  }
+};
 
-//     return connection;
-// };
-
-// module.exports = DbConnection;
-
-
-const mysql = require('mysql');
-
-const conn = mysql.createConnection({
-    host: 'nozomi.proxy.rlwy.net',
-    port: 54118,
-    user: 'root',
-    password: 'cSIqoebjuFSzihGnhMZsNRWsSWcoVwOo',
-    database: 'railway'
-});
-
-conn.connect((err) => {
-    if (err) {
-        return console.error('Error connecting:', err.message);
-    }
-    console.log('Connection successful!');
-});
+module.exports = connectDB;
