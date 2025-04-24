@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
 
-const port = process.env.PORT || 10000
+const port = process.env.PORT || 3030
 
 const app = express();
 
@@ -16,14 +16,16 @@ app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
 
-
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://brazzer.onrender.com'], // Add your frontend domains
+    credentials: true
+  }));
 
 // app.use("/api/auth",require("./routes/auth"))
 app.use("/api/auth", authRoutes);
 
-app.use("/api/db",require("./routes/dbConfig"))
 app.use("/api/products", require("./routes/product"))
 app.use("/api/baskets",require("./routes/basket"));
 
