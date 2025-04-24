@@ -1,82 +1,89 @@
-const DbConnection = require("../config/db_connect");
+const Basket = require("../models/Basket");
+const Product = require("../models/Product");
 
+// Add product to the basket
 const addToBasket = async (req, res) => {
-  const db = DbConnection();
-
   const { product_id, user_id } = req.body;
 
-  db.query(
-    "INSERT INTO baskets (product_id, user_id) VALUES (?,?)",
-    [product_id, user_id],
-    (err, result) => {
-      if (err) throw err;
-      res.send(`<h1>Product added to basket with ID: ${result.insertId}</h1>`);
-    }
-  );
+  try {
+    const newBasketItem = new Basket({
+      product_id,
+      user_id,
+    });
+
+    await newBasketItem.save();
+    res.status(201).json({ message: "Product added to basket", basketId: newBasketItem._id });
+  } catch (err) {
+    res.status(500).json({ message: "Error adding to basket", error: err.message });
+  }
 };
 
+// Check if an item is already in the basket
 const checkItemInBasket = async (req, res) => {
-  const db = DbConnection();
-
   const { product_id, user_id } = req.body;
 
-  db.query(
-    "SELECT * FROM baskets WHERE product_id =? AND user_id =?",
-    [product_id, user_id],
-    (err, rows) => {
-      if (err) throw err;
-      res.send(rows.length > 0);
+  try {
+    const existingItem = await Basket.findOne({ product_id, user_id });
+
+    if (existingItem) {
+      return res.status(200).json({ exists: true });
     }
-  );
+
+    res.status(200).json({ exists: false });
+  } catch (err) {
+    res.status(500).json({ message: "Error checking item in basket", error: err.message });
+  }
 };
 
+// Delete product from the basket
 const deleteFromBasket = async (req, res) => {
-  const db = DbConnection();
-
   const { product_id, user_id } = req.body;
 
-  db.query(
-    "DELETE FROM baskets WHERE product_id =? AND user_id =?",
-    [product_id, user_id],
-    (err, result) => {
-      if (err) throw err;
-      res.send(`<h1>Product deleted from basket with ID: ${product_id}</h1>`);
+  try {
+    const result = await Basket.deleteOne({ product_id, user_id });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Product not found in basket" });
     }
-  );
+
+    res.status(200).json({ message: "Product deleted from basket" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting from basket", error: err.message });
+  }
 };
 
+// Get all items in the user's basket
 const getBasketItems = async (req, res) => {
-  const db = DbConnection();
-
   const { user_id } = req.params;
 
-  db.query(
-    "SELECT  * from baskets  join products on baskets.product_id = products.id where baskets.user_id = ?",
-    [user_id], // replace with user_id from req.params
+  try {
+    const basketItems = await Basket.find({ user_id }).populate('product_id');
 
-    (err, rows) => {
-      if (err) throw err;
-      res.send(rows);
+    if (basketItems.length === 0) {
+      return res.status(404).json({ message: "No products in the basket" });
     }
-  );
+
+    res.status(200).json(basketItems);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching basket items", error: err.message });
+  }
 };
 
+// Get specific user basket items, including product details
 const getUserBasketItems = async (req, res) => {
-  const db = DbConnection();
-
   const { user_id } = req.params;
 
-  // replace with user_id from req.params
+  try {
+    const basketItems = await Basket.find({ user_id }).populate('product_id');
 
-  db.query(
-    "SELECT * FROM  baskets as b JOIN    products p ON b.product_id = p.id WHERE  b.user_id = ?",
-    [user_id], // replace with user_id from req.params
-    (err, rows) => {
-      if (err) throw err;
-      res.send(rows);
+    if (basketItems.length === 0) {
+      return res.status(404).json({ message: "No products in the basket" });
     }
-  );
 
+    res.status(200).json(basketItems);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching basket items", error: err.message });
+  }
 };
 
 module.exports = {
@@ -84,6 +91,5 @@ module.exports = {
   checkItemInBasket,
   deleteFromBasket,
   getBasketItems,
-
-  getUserBasketItems
+  getUserBasketItems,
 };
