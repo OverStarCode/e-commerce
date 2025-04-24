@@ -1,18 +1,24 @@
-const mysql = require("mysql2");
+require('dotenv').config();
+const mysql = require('mysql');
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "ecommerce",
-});
+const DbConnection = () => {
+    const connection = mysql.createConnection({
+        host: process.env.DB_HOSTNAME,
+        port: process.env.DB_PORT || 3306,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE
+    });
 
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL:", err.message);
-  } else {
-    console.log("Connected to MySQL");
-  }
-});
+    connection.connect((err) => {
+        if (err) {
+            console.error('MySQL connection failed:', err.stack);
+            return;
+        }
+        console.log('Connected to MySQL on Railway!');
+    });
 
-module.exports = db;
+    return connection;
+};
+
+module.exports = DbConnection;
