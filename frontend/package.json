@@ -13,7 +13,7 @@
     "@stripe/stripe-js": "^5.4.0",
     "anchor-pki": "^0.3.2",
     "axios": "^1.7.9",
-    "firebase": "^11.1.0",
+    "firebase": "^11.3.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.469.0",
